@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">root_detector</string>
+
+    <!-- Main screen -->
+    <string name="title_main_screen">Detector de raices</string>
+    <string name="upload_image_main_screen">Sube tu imagen aqui</string>
+    <string name="browse_button_main_screen">Navegar</string>
+    <string name="button_main_screen">Comenzar</string>
+</resources>
