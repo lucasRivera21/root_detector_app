@@ -86,7 +86,6 @@ fun MainScreen(paddingValues: PaddingValues, mainViewModel: MainViewModel) {
                     color = colorResource(R.color.primary),
                     cornerRadius = 12.dp
                 ),
-            //.padding(32.dp),
             contentAlignment = Alignment.Center
         ) {
             if (imageSelected != null) {
@@ -142,7 +141,7 @@ fun MainScreen(paddingValues: PaddingValues, mainViewModel: MainViewModel) {
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Comenzar Button
+        // Start Button
         Button(
             onClick = { /* TODO */ },
             modifier = Modifier

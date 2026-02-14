@@ -31,7 +31,7 @@ class MainViewModel : ViewModel() {
             val widthBitmap = bitmap.width
             val heightBitmap = bitmap.height
 
-            //rotate image
+            //rotate image if is necessary
             _imageSelected.value = if(widthBitmap < heightBitmap) {
                 val matrix = android.graphics.Matrix()
                 matrix.postRotate(-90f)
