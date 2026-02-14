@@ -50,6 +50,7 @@ fun MainScreen(paddingValues: PaddingValues, mainViewModel: MainViewModel) {
     val context = LocalContext.current
 
     val imageSelected by mainViewModel.imageSelected.collectAsState()
+    val isImageUpload by mainViewModel.isImageUpload.collectAsState()
 
     val pickMedia =
         rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
@@ -149,9 +150,12 @@ fun MainScreen(paddingValues: PaddingValues, mainViewModel: MainViewModel) {
                 .height(59.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = colorResource(R.color.primary),
-                contentColor = colorResource(R.color.on_primary)
+                contentColor = colorResource(R.color.on_primary),
+                disabledContentColor = colorResource(R.color.on_surface),
+                disabledContainerColor = colorResource(R.color.on_surface).copy(alpha = 0.1f)
             ),
-            shape = RoundedCornerShape(12.dp)
+            shape = RoundedCornerShape(12.dp),
+            enabled = isImageUpload
         ) {
             Text(
                 text = stringResource(R.string.button_main_screen),

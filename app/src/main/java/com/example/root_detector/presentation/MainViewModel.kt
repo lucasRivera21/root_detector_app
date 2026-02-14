@@ -16,6 +16,9 @@ class MainViewModel : ViewModel() {
     private val _imageSelected = MutableStateFlow<Bitmap?>(null)
     val imageSelected = _imageSelected
 
+    private val _isImageUpload = MutableStateFlow<Boolean>(false)
+    val isImageUpload = _isImageUpload
+
     fun onSelectImg(uri: Uri, context: Context) {
         val contentResolver = context.contentResolver
 
@@ -39,6 +42,8 @@ class MainViewModel : ViewModel() {
             } else {
                 bitmap
             }
+
+            _isImageUpload.value = true
         } catch (e: Exception) {
             Log.e(TAG, "onSelectImg: ", e)
         }
