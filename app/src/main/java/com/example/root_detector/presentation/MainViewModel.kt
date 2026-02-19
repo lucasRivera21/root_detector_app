@@ -75,6 +75,8 @@ class MainViewModel : ViewModel() {
                     context.getString(R.string.without_connection),
                     Toast.LENGTH_SHORT
                 ).show()
+
+                return
             }
             viewModelScope.launch(Dispatchers.IO) {
 
