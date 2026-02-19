@@ -1,5 +1,6 @@
 package com.example.root_detector.presentation
 
+import android.content.Context
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -10,13 +11,16 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -41,10 +45,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.root_detector.R
+import com.example.root_detector.presentation.components.ClasifierBox
 
 @Composable
 fun MainScreen(paddingValues: PaddingValues, mainViewModel: MainViewModel) {
@@ -66,7 +72,8 @@ fun MainScreen(paddingValues: PaddingValues, mainViewModel: MainViewModel) {
             .fillMaxSize()
             .background(colorResource(R.color.surface))
             .padding(paddingValues)
-            .padding(horizontal = 16.dp, vertical = 24.dp),
+            .padding(horizontal = 16.dp, vertical = 24.dp)
+            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
@@ -172,8 +179,72 @@ fun MainScreen(paddingValues: PaddingValues, mainViewModel: MainViewModel) {
                 )
             }
         }
+
+        Spacer(modifier = Modifier.size(32.dp))
+        ResultsScreen(context)
     }
 }
+
+@Composable
+fun ResultsScreen(context: Context) {
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Text(
+            text = context.getString(R.string.results_tilte),
+            fontSize = 20.sp,
+            color = colorResource(R.color.on_surface),
+            fontWeight = FontWeight.SemiBold
+        )
+
+        Spacer(modifier = Modifier.size(24.dp))
+
+        Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+            Row(horizontalArrangement = Arrangement.spacedBy(48.dp)) {
+                ClasifierBox(
+                    context.getString(R.string.primary),
+                    100,
+                    colorResource(R.color.green),
+                    modifier = Modifier.weight(1f)
+                )
+                ClasifierBox(
+                    context.getString(R.string.secondary),
+                    100,
+                    colorResource(R.color.blue),
+                    modifier = Modifier.weight(1f)
+                )
+            }
+
+            Row(horizontalArrangement = Arrangement.spacedBy(48.dp)) {
+                ClasifierBox(
+                    context.getString(R.string.tertiary),
+                    100,
+                    colorResource(R.color.orange),
+                    modifier = Modifier.weight(1f)
+                )
+                ClasifierBox(
+                    context.getString(R.string.quaternary),
+                    100,
+                    colorResource(R.color.red),
+                    modifier = Modifier.weight(1f)
+                )
+            }
+        }
+
+        Box {
+            //TODO: Chart
+        }
+
+        Box {
+            //TODO: Img
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewResultScreen() {
+    ResultsScreen(LocalContext.current)
+}
+
 
 fun Modifier.dashedBorder(strokeWidth: Dp, color: Color, cornerRadius: Dp) = this.drawBehind {
     val stroke = Stroke(

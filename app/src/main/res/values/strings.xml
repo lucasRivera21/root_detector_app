@@ -10,4 +10,12 @@
     <!-- Server Response -->
     <string name="aruco_dont_found">Aruco no encontrado</string>
     <string name="without_connection">Sin conexion a internet</string>
+
+    <!-- Results -->
+    <string name="results_tilte">Resultados</string>
+    <string name="primary">Primarias</string>
+    <string name="secondary">Secundarias</string>
+    <string name="tertiary">Terciarias</string>
+    <string name="quaternary">Cuaternarias</string>
+    <string name="roots">Raíces</string>
 </resources>

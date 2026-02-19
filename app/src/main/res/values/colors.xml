@@ -24,4 +24,10 @@
     <color name="error_container">#FFDAD6</color>
     <color name="on_error_container">#93000A</color>
     <color name="surface_container_highest">#E2E3D8</color>
+
+    <color name="green">#1FC394</color>
+    <color name="blue">#4461FA</color>
+    <color name="orange">#FBA932</color>
+    <color name="red">#FD674C</color>
+
 </resources>
