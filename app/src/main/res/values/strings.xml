@@ -9,4 +9,5 @@
 
     <!-- Server Response -->
     <string name="aruco_dont_found">Aruco no encontrado</string>
+    <string name="without_connection">Sin conexion a internet</string>
 </resources>

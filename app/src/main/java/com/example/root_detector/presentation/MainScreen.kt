@@ -146,7 +146,7 @@ fun MainScreen(paddingValues: PaddingValues, mainViewModel: MainViewModel) {
 
         // Start Button
         Button(
-            onClick = { mainViewModel.onSendRequest() },
+            onClick = { mainViewModel.onSendRequest(context) },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(59.dp),

@@ -7,9 +7,12 @@ import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.root_detector.R
 import com.example.root_detector.common.Resource
+import com.example.root_detector.common.hasNetworkConnection
 import com.example.root_detector.domain.SendImageToApiUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -62,10 +65,17 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    fun onSendRequest() {
+    fun onSendRequest(context: Context) {
         if (!_isLoading.value) {
             _isLoading.value = true
 
+            if (!hasNetworkConnection(context)) {
+                Toast.makeText(
+                    context,
+                    context.getString(R.string.without_connection),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
             viewModelScope.launch(Dispatchers.IO) {
 
                 when (val result = sendImageToApiUseCase(_imageSelected.value!!)) {
