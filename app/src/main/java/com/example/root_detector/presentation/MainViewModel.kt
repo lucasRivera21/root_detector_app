@@ -76,6 +76,7 @@ class MainViewModel : ViewModel() {
                     Toast.LENGTH_SHORT
                 ).show()
 
+                _isLoading.value = false
                 return
             }
             viewModelScope.launch(Dispatchers.IO) {
