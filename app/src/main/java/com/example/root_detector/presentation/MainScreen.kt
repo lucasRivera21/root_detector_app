@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -51,6 +52,7 @@ fun MainScreen(paddingValues: PaddingValues, mainViewModel: MainViewModel) {
 
     val imageSelected by mainViewModel.imageSelected.collectAsState()
     val isImageUpload by mainViewModel.isImageUpload.collectAsState()
+    val isLoading by mainViewModel.isLoading.collectAsState()
 
     val pickMedia =
         rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
@@ -144,7 +146,7 @@ fun MainScreen(paddingValues: PaddingValues, mainViewModel: MainViewModel) {
 
         // Start Button
         Button(
-            onClick = { /* TODO */ },
+            onClick = { mainViewModel.onSendRequest() },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(59.dp),
@@ -157,11 +159,18 @@ fun MainScreen(paddingValues: PaddingValues, mainViewModel: MainViewModel) {
             shape = RoundedCornerShape(12.dp),
             enabled = isImageUpload
         ) {
-            Text(
-                text = stringResource(R.string.button_main_screen),
-                fontSize = 16.sp,
-                fontWeight = FontWeight.SemiBold
-            )
+            if (!isLoading) {
+                Text(
+                    text = stringResource(R.string.button_main_screen),
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
+            } else {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(24.dp),
+                    color = colorResource(R.color.on_primary)
+                )
+            }
         }
     }
 }

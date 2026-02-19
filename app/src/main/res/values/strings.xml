@@ -6,4 +6,7 @@
     <string name="upload_image_main_screen">Sube tu imagen aqui</string>
     <string name="browse_button_main_screen">Navegar</string>
     <string name="button_main_screen">Comenzar</string>
+
+    <!-- Server Response -->
+    <string name="aruco_dont_found">Aruco no encontrado</string>
 </resources>
