@@ -50,6 +50,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.root_detector.R
+import com.example.root_detector.presentation.components.ChartComponent
 import com.example.root_detector.presentation.components.ClasifierBox
 
 @Composable
@@ -187,7 +188,7 @@ fun MainScreen(paddingValues: PaddingValues, mainViewModel: MainViewModel) {
 
 @Composable
 fun ResultsScreen(context: Context) {
-    Column(modifier = Modifier.fillMaxWidth()) {
+    Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
             text = context.getString(R.string.results_tilte),
             fontSize = 20.sp,
@@ -229,9 +230,13 @@ fun ResultsScreen(context: Context) {
             }
         }
 
+        Spacer(Modifier.size(40.dp))
+
         Box {
-            //TODO: Chart
+            ChartComponent(0.6f, context)
         }
+
+        Spacer(Modifier.size(32.dp))
 
         Box {
             //TODO: Img
