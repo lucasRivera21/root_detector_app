@@ -14,9 +14,11 @@ import com.example.root_detector.R
 import com.example.root_detector.common.Resource
 import com.example.root_detector.common.hasNetworkConnection
 import com.example.root_detector.domain.SendImageToApiUseCase
+import com.example.root_detector.domain.models.ResponseModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 private const val TAG = "MainViewModel"
 
@@ -34,6 +36,12 @@ class MainViewModel : ViewModel() {
 
     private val _isLoading = MutableStateFlow(false)
     val isLoading = _isLoading
+
+    private val _arucoDontFound = MutableStateFlow(false)
+    val arucoDontFound = _arucoDontFound
+
+    private val _rootValues = MutableStateFlow<ResponseModel?>(null)
+    val rootValues = _rootValues
 
     fun onSelectImg(uri: Uri, context: Context) {
         val contentResolver = context.contentResolver
@@ -68,6 +76,8 @@ class MainViewModel : ViewModel() {
     fun onSendRequest(context: Context) {
         if (!_isLoading.value) {
             _isLoading.value = true
+            _arucoDontFound.value = false
+            _rootValues.value = null
 
             if (!hasNetworkConnection(context)) {
                 Toast.makeText(
@@ -80,22 +90,23 @@ class MainViewModel : ViewModel() {
                 return
             }
             viewModelScope.launch(Dispatchers.IO) {
-
                 when (val result = sendImageToApiUseCase(_imageSelected.value!!)) {
                     is Resource.Success -> {
-                        Log.d(TAG, "onSendRequest: ${result.data}")
-                    }
-
-                    is Resource.Error -> {
-                        Log.d(TAG, "onSendRequest: ${result.message}")
+                        _rootValues.value = result.data
                     }
 
                     is Resource.AruconDontFound -> {
-                        Log.d(TAG, "onSendRequest: ${result.message}")
+                        _arucoDontFound.value = true
                     }
 
-                    is Resource.ServerError -> {
-                        Log.d(TAG, "onSendRequest: ${result.message}")
+                    else -> {
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(
+                                context,
+                                context.getString(R.string.server_error),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     }
                 }
 

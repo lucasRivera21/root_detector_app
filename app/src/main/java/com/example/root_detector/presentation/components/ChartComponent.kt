@@ -2,7 +2,6 @@ package com.example.root_detector.presentation.components
 
 import android.content.Context
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -45,7 +44,7 @@ fun ChartComponent(rootPercent: Float, context: Context) {
                 color = Color(context.getColor(R.color.surface_container_highest)),
                 center = Offset(x = canvasWidth / 2, y = canvasHeight / 2),
                 radius = size.minDimension / 2,
-                style = Stroke(40F)
+                style = Stroke(28F)
             )
 
             drawArc(

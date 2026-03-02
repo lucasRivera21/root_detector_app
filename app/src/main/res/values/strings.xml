@@ -10,6 +10,7 @@
     <!-- Server Response -->
     <string name="aruco_dont_found">Aruco no encontrado</string>
     <string name="without_connection">Sin conexion a internet</string>
+    <string name="server_error">Hay un error del servidor, intentalo mas tarde</string>
 
     <!-- Results -->
     <string name="results_tilte">Resultados</string>

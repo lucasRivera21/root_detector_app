@@ -52,6 +52,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.root_detector.R
+import com.example.root_detector.domain.models.ResponseModel
 import com.example.root_detector.presentation.components.ChartComponent
 import com.example.root_detector.presentation.components.ClasifierBox
 
@@ -62,6 +63,8 @@ fun MainScreen(paddingValues: PaddingValues, mainViewModel: MainViewModel) {
     val imageSelected by mainViewModel.imageSelected.collectAsState()
     val isImageUpload by mainViewModel.isImageUpload.collectAsState()
     val isLoading by mainViewModel.isLoading.collectAsState()
+    val arucoDontFound by mainViewModel.arucoDontFound.collectAsState()
+    val rootValues by mainViewModel.rootValues.collectAsState()
 
     val pickMedia =
         rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
@@ -90,69 +93,95 @@ fun MainScreen(paddingValues: PaddingValues, mainViewModel: MainViewModel) {
         Spacer(modifier = Modifier.height(48.dp))
 
         // Upload Box
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(212.dp)
-                .dashedBorder(
-                    strokeWidth = 1.dp,
-                    color = colorResource(R.color.primary),
-                    cornerRadius = 12.dp
-                ),
-            contentAlignment = Alignment.Center
-        ) {
-            if (imageSelected != null) {
-                Image(
-                    bitmap = imageSelected!!.asImageBitmap(),
-                    contentDescription = "Selected image",
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .clip(RoundedCornerShape(12.dp))
-                        .clickable { pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)) },
-                    contentScale = ContentScale.Crop
-                )
-            } else {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_upload),
-                        contentDescription = "Upload",
-                        tint = colorResource(R.color.on_surface),
-                        modifier = Modifier.size(
-                            36
-                                .dp
-                        )
-                    )
-
-                    Text(
-                        text = stringResource(R.string.upload_image_main_screen),
-                        color = colorResource(R.color.on_surface),
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Normal
-                    )
-
-                    Button(
-                        onClick = { pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)) },
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = colorResource(R.color.primary),
-                            contentColor = colorResource(R.color.on_primary)
+        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(212.dp)
+                    .dashedBorder(
+                        strokeWidth = 1.dp,
+                        color = if (arucoDontFound) colorResource(R.color.error) else colorResource(
+                            R.color.primary
                         ),
-                        shape = RoundedCornerShape(12.dp),
-                        contentPadding = PaddingValues(horizontal = 10.dp, vertical = 10.dp)
+                        cornerRadius = 12.dp
+                    ),
+                contentAlignment = Alignment.Center
+            ) {
+                if (imageSelected != null) {
+                    Image(
+                        bitmap = imageSelected!!.asImageBitmap(),
+                        contentDescription = "Selected image",
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clip(RoundedCornerShape(12.dp))
+                            .clickable {
+                                pickMedia.launch(
+                                    PickVisualMediaRequest(
+                                        ActivityResultContracts.PickVisualMedia.ImageOnly
+                                    )
+                                )
+                            },
+                        contentScale = ContentScale.Crop
+                    )
+                } else {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
-                        Text(
-                            text = stringResource(R.string.browse_button_main_screen),
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.SemiBold
+                        Icon(
+                            painter = painterResource(R.drawable.ic_upload),
+                            contentDescription = "Upload",
+                            tint = colorResource(R.color.on_surface),
+                            modifier = Modifier.size(
+                                36
+                                    .dp
+                            )
                         )
+
+                        Text(
+                            text = stringResource(R.string.upload_image_main_screen),
+                            color = colorResource(R.color.on_surface),
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Normal
+                        )
+
+                        Button(
+                            onClick = {
+                                pickMedia.launch(
+                                    PickVisualMediaRequest(
+                                        ActivityResultContracts.PickVisualMedia.ImageOnly
+                                    )
+                                )
+                            },
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = colorResource(R.color.primary),
+                                contentColor = colorResource(R.color.on_primary)
+                            ),
+                            shape = RoundedCornerShape(12.dp),
+                            contentPadding = PaddingValues(horizontal = 10.dp, vertical = 10.dp)
+                        ) {
+                            Text(
+                                text = stringResource(R.string.browse_button_main_screen),
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                        }
                     }
                 }
             }
+
+            if (arucoDontFound) {
+                Text(
+                    stringResource(R.string.aruco_dont_found),
+                    fontSize = 12.sp,
+                    color = colorResource(R.color.error)
+                )
+            } else {
+                Spacer(modifier = Modifier.height(16.dp))
+            }
         }
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         // Start Button
         Button(
@@ -184,12 +213,15 @@ fun MainScreen(paddingValues: PaddingValues, mainViewModel: MainViewModel) {
         }
 
         Spacer(modifier = Modifier.size(32.dp))
-        ResultsScreen(context)
+
+        if (rootValues != null) {
+            ResultsScreen(rootValues!!, context)
+        }
     }
 }
 
 @Composable
-fun ResultsScreen(context: Context) {
+fun ResultsScreen(rootValues: ResponseModel, context: Context) {
     Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
             text = context.getString(R.string.results_tilte),
@@ -204,13 +236,13 @@ fun ResultsScreen(context: Context) {
             Row(horizontalArrangement = Arrangement.spacedBy(48.dp)) {
                 ClasifierBox(
                     context.getString(R.string.primary),
-                    100,
+                    rootValues.primary,
                     colorResource(R.color.green),
                     modifier = Modifier.weight(1f)
                 )
                 ClasifierBox(
                     context.getString(R.string.secondary),
-                    100,
+                    rootValues.secondary,
                     colorResource(R.color.blue),
                     modifier = Modifier.weight(1f)
                 )
@@ -219,13 +251,13 @@ fun ResultsScreen(context: Context) {
             Row(horizontalArrangement = Arrangement.spacedBy(48.dp)) {
                 ClasifierBox(
                     context.getString(R.string.tertiary),
-                    100,
+                    rootValues.tertiary,
                     colorResource(R.color.orange),
                     modifier = Modifier.weight(1f)
                 )
                 ClasifierBox(
                     context.getString(R.string.quaternary),
-                    100,
+                    rootValues.quaternary,
                     colorResource(R.color.red),
                     modifier = Modifier.weight(1f)
                 )
@@ -235,7 +267,7 @@ fun ResultsScreen(context: Context) {
         Spacer(Modifier.size(40.dp))
 
         Box {
-            ChartComponent(0.6f, context)
+            ChartComponent(rootValues.rootPercent, context)
         }
 
         Spacer(Modifier.size(32.dp))
@@ -257,7 +289,7 @@ fun ResultsScreen(context: Context) {
 @Preview(showBackground = true)
 @Composable
 fun PreviewResultScreen() {
-    ResultsScreen(LocalContext.current)
+    MainScreen(PaddingValues(), MainViewModel())
 }
 
 
