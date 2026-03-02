@@ -33,7 +33,6 @@ fun ChartComponent(rootPercent: Float, context: Context) {
         modifier = Modifier
             .width(150.dp)
             .height(150.dp)
-            .background(colorResource(R.color.surface))
             .padding(7.dp),
         contentAlignment = Alignment.Center
     ) {
