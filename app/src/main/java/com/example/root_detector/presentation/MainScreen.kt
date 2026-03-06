@@ -23,7 +23,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -51,6 +50,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.root_detector.R
 import com.example.root_detector.domain.models.ResponseModel
+import com.example.root_detector.presentation.components.ButtonComponent
 import com.example.root_detector.presentation.components.ChartComponent
 import com.example.root_detector.presentation.components.ClasifierBox
 
@@ -182,32 +182,13 @@ fun MainScreen(paddingValues: PaddingValues, mainViewModel: MainViewModel) {
         Spacer(modifier = Modifier.height(8.dp))
 
         // Start Button
-        Button(
-            onClick = { mainViewModel.onSendRequest(context) },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(59.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = colorResource(R.color.primary),
-                contentColor = colorResource(R.color.on_primary),
-                disabledContentColor = colorResource(R.color.on_surface),
-                disabledContainerColor = colorResource(R.color.on_surface).copy(alpha = 0.1f)
-            ),
-            shape = RoundedCornerShape(12.dp),
-            enabled = isImageUpload
+        ButtonComponent(
+            modifier = Modifier,
+            textButton = stringResource(R.string.button_main_screen),
+            isEnabled = isImageUpload,
+            isLoading = isLoading
         ) {
-            if (!isLoading) {
-                Text(
-                    text = stringResource(R.string.button_main_screen),
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.SemiBold
-                )
-            } else {
-                CircularProgressIndicator(
-                    modifier = Modifier.size(24.dp),
-                    color = colorResource(R.color.on_primary)
-                )
-            }
+            mainViewModel.onSendRequest(context)
         }
 
         Spacer(modifier = Modifier.size(32.dp))
