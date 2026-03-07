@@ -11,7 +11,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.root_detector.presentation.MainScreen
 import com.example.root_detector.presentation.MainViewModel
-import com.example.root_detector.presentation.components.DetailImgScreen
+import com.example.root_detector.presentation.DetailImgScreen
 
 @Composable
 fun AppNavigation(paddingValues: PaddingValues, mainViewModel: MainViewModel) {

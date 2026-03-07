@@ -1,4 +1,4 @@
-package com.example.root_detector.presentation.components
+package com.example.root_detector.presentation
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.root_detector.R
+import com.example.root_detector.presentation.components.ButtonComponent
 
 @Composable
 fun DetailImgScreen(paddingValues: PaddingValues, navController: NavHostController) {
