@@ -48,15 +48,21 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.root_detector.R
 import com.example.root_detector.domain.models.ResponseModel
+import com.example.root_detector.navigation.Screens
 import com.example.root_detector.presentation.components.ButtonComponent
 import com.example.root_detector.presentation.components.ChartComponent
 import com.example.root_detector.presentation.components.ClasifierBox
 
 @Composable
-fun MainScreen(paddingValues: PaddingValues, mainViewModel: MainViewModel) {
+fun MainScreen(
+    paddingValues: PaddingValues,
+    navController: NavHostController,
+    mainViewModel: MainViewModel
+) {
     val context = LocalContext.current
 
     val imageSelected by mainViewModel.imageSelected.collectAsState()
@@ -195,13 +201,13 @@ fun MainScreen(paddingValues: PaddingValues, mainViewModel: MainViewModel) {
         Spacer(modifier = Modifier.size(32.dp))
 
         if (rootValues != null) {
-            ResultsScreen(rootValues!!, context)
+            ResultsScreen(rootValues!!, navController, context)
         }
     }
 }
 
 @Composable
-fun ResultsScreen(rootValues: ResponseModel, context: Context) {
+fun ResultsScreen(rootValues: ResponseModel, navController: NavHostController, context: Context) {
     Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
             text = context.getString(R.string.results_tilte),
@@ -259,7 +265,10 @@ fun ResultsScreen(rootValues: ResponseModel, context: Context) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(212.dp)
-                    .clip(RoundedCornerShape(12.dp)),
+                    .clip(RoundedCornerShape(12.dp))
+                    .clickable {
+                        navController.navigate(Screens.DetailImgScreen.route)
+                    },
                 contentScale = ContentScale.Crop
             )
         }
@@ -269,7 +278,8 @@ fun ResultsScreen(rootValues: ResponseModel, context: Context) {
 @Preview(showBackground = true)
 @Composable
 fun PreviewResultScreen() {
-    MainScreen(PaddingValues(), MainViewModel())
+    val navController = NavHostController(LocalContext.current)
+    MainScreen(PaddingValues(), navController, MainViewModel())
 }
 
 

@@ -25,10 +25,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.root_detector.R
 
 @Composable
-fun DetailImgScreen(paddingValues: PaddingValues) {
+fun DetailImgScreen(paddingValues: PaddingValues, navController: NavHostController) {
     val context = LocalContext.current
     Column(
         modifier = Modifier
@@ -40,7 +41,10 @@ fun DetailImgScreen(paddingValues: PaddingValues) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(modifier = Modifier.fillMaxWidth()) {
-            IconButton(onClick = {}, modifier = Modifier.align(Alignment.CenterStart)) {
+            IconButton(
+                onClick = { navController.popBackStack() },
+                modifier = Modifier.align(Alignment.CenterStart)
+            ) {
                 Icon(
                     painter = painterResource(R.drawable.ic_arrow_back),
                     contentDescription = "Back",
@@ -60,7 +64,9 @@ fun DetailImgScreen(paddingValues: PaddingValues) {
         Image(
             bitmap = ImageBitmap.imageResource(id = R.drawable.root_img),
             contentDescription = "Root image",
-            modifier = Modifier.fillMaxWidth().weight(1f)
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
         )
 
         ButtonComponent(modifier = Modifier, textButton = "Descargar", isLoading = false) {
@@ -72,5 +78,6 @@ fun DetailImgScreen(paddingValues: PaddingValues) {
 @Preview(showBackground = true)
 @Composable
 fun PreviewDetailImgScreen() {
-    DetailImgScreen(PaddingValues())
+    val navController = NavHostController(LocalContext.current)
+    DetailImgScreen(PaddingValues(), navController)
 }
