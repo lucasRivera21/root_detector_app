@@ -29,6 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.compose.ui.res.stringResource
 import com.example.root_detector.R
 import com.example.root_detector.presentation.components.ButtonComponent
 
@@ -69,7 +70,7 @@ fun DetailImgScreen(
             }
 
             Text(
-                "Detalles",
+                stringResource(R.string.details_title),
                 fontSize = 20.sp,
                 fontWeight = FontWeight.SemiBold,
                 color = colorResource(R.color.on_surface),
@@ -91,7 +92,7 @@ fun DetailImgScreen(
                 .weight(1f))
         }
 
-        ButtonComponent(modifier = Modifier, textButton = "Descargar", isLoading = isSavingImg) {
+        ButtonComponent(modifier = Modifier, textButton = stringResource(R.string.download_button), isLoading = isSavingImg) {
             detailImgViewModel.saveToGallery(context)
         }
     }

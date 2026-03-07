@@ -8,6 +8,7 @@ import android.os.Build
 import android.provider.MediaStore
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
+import com.example.root_detector.R
 import com.example.root_detector.common.IMG_NAME_RESPONSE
 import kotlinx.coroutines.flow.MutableStateFlow
 import java.io.File
@@ -68,7 +69,7 @@ class DetailImgViewModel : ViewModel() {
             }
         }
 
-        Toast.makeText(context, "Imagen guardada en la galería", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, context.getString(R.string.image_saved), Toast.LENGTH_SHORT).show()
 
         _isSavingImg.value = false
     }
