@@ -30,7 +30,7 @@ class DetailImgViewModel : ViewModel() {
         //Rotate bitmap if is necessary
         _imgDetail.value = if (bitmap!!.height < bitmap!!.width) {
             val matrix = android.graphics.Matrix()
-            matrix.postRotate(-90f)
+            matrix.postRotate(90f)
             Bitmap.createBitmap(bitmap!!, 0, 0, bitmap!!.width, bitmap!!.height, matrix, true)
         } else {
             bitmap
