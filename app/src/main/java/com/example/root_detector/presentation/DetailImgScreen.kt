@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -13,13 +14,15 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -30,8 +33,19 @@ import com.example.root_detector.R
 import com.example.root_detector.presentation.components.ButtonComponent
 
 @Composable
-fun DetailImgScreen(paddingValues: PaddingValues, navController: NavHostController) {
+fun DetailImgScreen(
+    paddingValues: PaddingValues,
+    navController: NavHostController,
+    detailImgViewModel: DetailImgViewModel
+) {
     val context = LocalContext.current
+
+    val imgDetail by detailImgViewModel.imgDetail.collectAsState()
+
+    LaunchedEffect(Unit) {
+        detailImgViewModel.getImageFromCache(context)
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -62,13 +76,19 @@ fun DetailImgScreen(paddingValues: PaddingValues, navController: NavHostControll
             )
         }
 
-        Image(
-            bitmap = ImageBitmap.imageResource(id = R.drawable.root_img),
-            contentDescription = "Root image",
-            modifier = Modifier
+        if (imgDetail != null) {
+            Image(
+                bitmap = imgDetail!!.asImageBitmap(),
+                contentDescription = "Root image",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+            )
+        } else {
+            Spacer(modifier = Modifier
                 .fillMaxWidth()
-                .weight(1f)
-        )
+                .weight(1f))
+        }
 
         ButtonComponent(modifier = Modifier, textButton = "Descargar", isLoading = false) {
             //TODO: Download image
@@ -80,5 +100,6 @@ fun DetailImgScreen(paddingValues: PaddingValues, navController: NavHostControll
 @Composable
 fun PreviewDetailImgScreen() {
     val navController = NavHostController(LocalContext.current)
-    DetailImgScreen(PaddingValues(), navController)
+    val detailImgViewModel = DetailImgViewModel()
+    DetailImgScreen(PaddingValues(), navController, detailImgViewModel)
 }

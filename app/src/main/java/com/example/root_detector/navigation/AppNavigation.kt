@@ -12,9 +12,14 @@ import androidx.navigation.compose.rememberNavController
 import com.example.root_detector.presentation.MainScreen
 import com.example.root_detector.presentation.MainViewModel
 import com.example.root_detector.presentation.DetailImgScreen
+import com.example.root_detector.presentation.DetailImgViewModel
 
 @Composable
-fun AppNavigation(paddingValues: PaddingValues, mainViewModel: MainViewModel) {
+fun AppNavigation(
+    paddingValues: PaddingValues,
+    mainViewModel: MainViewModel,
+    detailImgViewModel: DetailImgViewModel
+) {
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = Screens.MainScreen.route) {
@@ -33,7 +38,7 @@ fun AppNavigation(paddingValues: PaddingValues, mainViewModel: MainViewModel) {
                 towards = AnimatedContentTransitionScope.SlideDirection.End
             )
         }) {
-            DetailImgScreen(paddingValues, navController)
+            DetailImgScreen(paddingValues, navController, detailImgViewModel)
         }
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
 import android.util.Base64
+import com.example.root_detector.common.IMG_NAME_RESPONSE
 import com.example.root_detector.common.Resource
 import com.example.root_detector.data.repository.Repository
 import com.example.root_detector.domain.models.ResponseModel
@@ -12,8 +13,6 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.ByteArrayOutputStream
 import java.io.File
-
-private const val IMG_NAME_RESPONSE = "image_response.jpg"
 
 class SendImageToApiUseCase {
     companion object {

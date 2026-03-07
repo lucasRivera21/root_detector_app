@@ -9,19 +9,21 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import com.example.root_detector.navigation.AppNavigation
+import com.example.root_detector.presentation.DetailImgViewModel
 import com.example.root_detector.presentation.MainViewModel
 import com.example.root_detector.ui.theme.Root_detectorTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         val mainViewModel: MainViewModel by viewModels()
+        val detailImgViewModel: DetailImgViewModel by viewModels()
 
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             Root_detectorTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { paddingValues ->
-                    AppNavigation(paddingValues, mainViewModel)
+                    AppNavigation(paddingValues, mainViewModel, detailImgViewModel)
                 }
             }
         }
