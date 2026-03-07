@@ -120,11 +120,13 @@ fun MainScreen(
                             .fillMaxSize()
                             .clip(RoundedCornerShape(12.dp))
                             .clickable {
-                                pickMedia.launch(
-                                    PickVisualMediaRequest(
-                                        ActivityResultContracts.PickVisualMedia.ImageOnly
+                                if (!isLoading) {
+                                    pickMedia.launch(
+                                        PickVisualMediaRequest(
+                                            ActivityResultContracts.PickVisualMedia.ImageOnly
+                                        )
                                     )
-                                )
+                                }
                             },
                         contentScale = ContentScale.Crop
                     )
