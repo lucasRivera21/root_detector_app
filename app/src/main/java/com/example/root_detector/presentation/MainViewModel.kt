@@ -90,7 +90,7 @@ class MainViewModel : ViewModel() {
                 return
             }
             viewModelScope.launch(Dispatchers.IO) {
-                when (val result = sendImageToApiUseCase(_imageSelected.value!!)) {
+                when (val result = sendImageToApiUseCase(_imageSelected.value!!, context)) {
                     is Resource.Success -> {
                         _rootValues.value = result.data
                     }

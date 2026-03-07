@@ -1,6 +1,6 @@
 package com.example.root_detector.domain.models
 
-import android.graphics.Bitmap
+import android.net.Uri
 
 data class ResponseModel(
     val primary: Int,
@@ -8,5 +8,5 @@ data class ResponseModel(
     val tertiary: Int,
     val quaternary: Int,
     val rootPercent: Float,
-    val imgBitmap: Bitmap
+    val uriImage: Uri
 )

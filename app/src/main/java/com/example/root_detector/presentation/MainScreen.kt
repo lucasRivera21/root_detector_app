@@ -48,6 +48,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.example.root_detector.R
 import com.example.root_detector.domain.models.ResponseModel
 import com.example.root_detector.presentation.components.ButtonComponent
@@ -252,8 +253,8 @@ fun ResultsScreen(rootValues: ResponseModel, context: Context) {
         Spacer(Modifier.size(32.dp))
 
         Box {
-            Image(
-                bitmap = rootValues.imgBitmap.asImageBitmap(),
+            AsyncImage(
+                model = rootValues.uriImage,
                 contentDescription = "Root image",
                 modifier = Modifier
                     .fillMaxWidth()
