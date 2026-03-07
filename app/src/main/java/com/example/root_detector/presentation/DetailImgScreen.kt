@@ -41,6 +41,7 @@ fun DetailImgScreen(
     val context = LocalContext.current
 
     val imgDetail by detailImgViewModel.imgDetail.collectAsState()
+    val isSavingImg by detailImgViewModel.isSavingImg.collectAsState()
 
     LaunchedEffect(Unit) {
         detailImgViewModel.getImageFromCache(context)
@@ -90,8 +91,8 @@ fun DetailImgScreen(
                 .weight(1f))
         }
 
-        ButtonComponent(modifier = Modifier, textButton = "Descargar", isLoading = false) {
-            //TODO: Download image
+        ButtonComponent(modifier = Modifier, textButton = "Descargar", isLoading = isSavingImg) {
+            detailImgViewModel.saveToGallery(context)
         }
     }
 }
