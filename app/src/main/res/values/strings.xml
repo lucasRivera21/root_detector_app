@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">root_detector</string>
+    <string name="app_name">Detector de Raíces</string>
 
     <!-- Main screen -->
     <string name="title_main_screen">Detector de raices</string>
