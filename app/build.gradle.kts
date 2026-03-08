@@ -5,13 +5,13 @@ plugins {
 }
 
 android {
-    namespace = "com.example.root_detector"
+    namespace = "com.lucasdev.root_detector"
     compileSdk {
         version = release(36)
     }
 
     defaultConfig {
-        applicationId = "com.example.root_detector"
+        applicationId = "com.lucasdev.root_detector"
         minSdk = 26
         targetSdk = 36
         versionCode = 1
